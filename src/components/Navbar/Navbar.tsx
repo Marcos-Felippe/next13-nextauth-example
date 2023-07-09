@@ -43,7 +43,7 @@ export default function Navbar() {
     ];
 
     return (
-      <div className={styles.container}>
+      <nav className={styles.container}>
         <Link href="/" className={styles.logo}>NextEx</Link>
         <div className={styles.links}>
             <DarkModeToggle />
@@ -63,7 +63,7 @@ export default function Navbar() {
                 Logout
             </button>
         )}
-      </div>
+      </nav>
     )
   }
   

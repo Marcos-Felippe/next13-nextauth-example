@@ -45,18 +45,21 @@ const Register = () => {
             <h2 className={styles.subtitle}>Please sign up to see the dashboard.</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <input
+                    id="inputUsername" 
                     type="text"
                     placeholder="Username"
                     required
                     className={styles.input}
                 />
                 <input
+                    id="inputEmail" 
                     type="text"
                     placeholder="Email"
                     required
                     className={styles.input}
                 />
                 <input
+                    id="inputPassword" 
                     type="password"
                     placeholder="Password"
                     required

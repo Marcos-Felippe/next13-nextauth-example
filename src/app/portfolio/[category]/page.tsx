@@ -26,7 +26,7 @@ const getData = (cat: any) => {
 };
 
 
-const Category = ({ params }: any) => {
+const Category = ({ params }: { params: { category: string } }) => {
 
     const data = getData(params.category);
     

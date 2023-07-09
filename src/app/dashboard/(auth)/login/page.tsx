@@ -51,12 +51,14 @@ const Login = ({ url }: any) => {
 
             <form onSubmit = { handleSubmit } className = {styles.form}>
                 <input
+                    id="inputEmail"
                     type="text"
                     placeholder="Email"
                     required
                     className={styles.input}
                 />
                 <input
+                    id="inputPassword" 
                     type="password"
                     placeholder="Password"
                     required

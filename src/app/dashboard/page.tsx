@@ -7,10 +7,21 @@ import Hero from "public/hero.jpg";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+
+type Post = {
+    id: string,
+    username: string,
+    title: string,
+    description: string,
+    body: string,
+}
+
+
 const Dashboard = () => {
 
     // Pegando a session de autenticação
     const session = useSession();
+    // const sessioData: any = session.data;
 
     const router = useRouter();
 
@@ -43,9 +54,17 @@ const Dashboard = () => {
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data, mutate, error, isLoading } = useSWR(
-        `https:jsonplaceholder.typicode.com/users/${1}/posts`, // `/api/posts?username=${session?.data?.user.name}`,
-        fetcher
+        `https:jsonplaceholder.typicode.com/users/${1}/posts`,
+        fetcher,
+        {
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false
+        }
     );
+
+    // console.log(sessioData?.user.id);
+    // console.log(sessioData?.user.accessToken);
 
 
     const handleSubmit = async (e: any) => {
@@ -76,7 +95,7 @@ const Dashboard = () => {
         }
     };
     
-    const handleDelete = async (id: any) => {
+    const handleDelete = async (id: string) => {
         try {
             // codigo de deleção de um post no banco...
 
@@ -102,15 +121,15 @@ const Dashboard = () => {
                 <div className={styles.posts}>
                     {isLoading
                         ? "loading. . ."
-                        : data?.map((post: any) => (
-                            <div className={styles.post} key={post._id}>
+                        : data?.map((post: Post) => (
+                            <div className={styles.post} key={post.id}>
                                 <div className={styles.imgContainer}>
                                     <Image src={Hero} alt="" width={200} height={100} />
                                 </div>
                                 <h3 className={styles.postTitle}>{post.title}</h3>
                                 <span
                                     className={styles.delete}
-                                    onClick={() => handleDelete(post._id)}
+                                    onClick={() => handleDelete(post.id)}
                                 >
                                     X
                                 </span>
@@ -119,11 +138,13 @@ const Dashboard = () => {
                 </div>
 
                 <form className={styles.new} onSubmit = { handleSubmit }>
+                    <h3>Hello, {session?.data?.user?.name}</h3>
                     <h1>Add New Post</h1>
-                    <input type="text" placeholder="Title" className={styles.input} />
-                    <input type="text" placeholder="Desc" className={styles.input} />
-                    <input type="text" placeholder="Image" className={styles.input} />
+                    <input id="inputTitle" type="text" placeholder="Title" className={styles.input} />
+                    <input id="inputDesc" type="text" placeholder="Desc" className={styles.input} />
+                    <input id="inputImg" type="text" placeholder="Image" className={styles.input} />
                     <textarea
+                        id="inputContent" 
                         placeholder="Content"
                         className={styles.textArea}
                         cols={30}
